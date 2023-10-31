@@ -1,0 +1,119 @@
+﻿@model PaginatedList<InsuranceApp.Models.Insurance>
+
+@{
+    ViewData["Title"] = "Pojištění";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<!-- New record link -->
+<!--
+<div class="container-fluid py-4 text-center">
+    <a asp-action="Create" class="btn btn-primary btn-lg">Nová pojistná smlouva</a>
+</div>
+-->
+
+<table class="table table-responsive table-striped table-bordered my-3">
+    <thead class="table-light">
+        <tr>
+            <th>
+                Typ pojištění
+            </th>
+            <th>
+                Pojistná částka
+            </th>
+            <th>
+                Předmět pojištění
+            </th>
+            <th>
+                Platnost od
+            </th>
+            <th>
+                Platnost do
+            </th>
+            <th>
+                Pojištěnec
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DurationSince)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DurationTill)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Insured.Surname) @Html.DisplayFor(modelItem => item.Insured.Name)
+            </td>
+            <td>           
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-primary my-1">Detail</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning my-1">Upravit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger my-1">Odstranit</a>
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+    <div class="container-fluid py-3">
+        <nav aria-label="Stránkování">
+            <ul class="pagination justify-content-center">
+
+                @{
+                    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+                }
+
+                <li class="page-item @prevDisabled">
+                    <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   title="Předchozí" aria-label="Předchozí"
+                   class="page-link">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    var activePage = Model.PageIndex == @i ? "active" : "";
+
+                    <li class="page-item @activePage">
+                        <a asp-action="Index"
+                   asp-route-pageNumber="@i"
+                   title="Stránka @i"
+                   class="page-link">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                <li class="page-item @nextDisabled">
+                    <a asp-action="Index"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   title="Další"
+                   class="page-link">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}

@@ -1,0 +1,57 @@
+﻿@model InsuranceApp.Models.Insurance
+
+@{
+    ViewData["Title"] = "Odebrat pojistnou smlouvu";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h3>Opravdu chcete odebrat tento záznam?</h3>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Insured.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Insured.Surname) @Html.DisplayFor(model => model.Insured.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DurationSince)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DurationSince)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DurationTill)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DurationTill)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete" class="d-flex justify-content-center flex-wrap my-4">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Odebrat" class="btn btn-danger" />
+        <!--<a asp-action="Index">Back to List</a>-->
+        <a class="btn btn-warning mx-2" onclick="javascript:history.back();">Zpět</a>
+    </form>
+</div>

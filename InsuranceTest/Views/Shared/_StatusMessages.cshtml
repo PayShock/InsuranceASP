@@ -1,0 +1,12 @@
+﻿@{
+    var type = (string)TempData["_alert.type"];
+    var title = (string)TempData["_alert.title"];
+    var body = (string)TempData["_alert.body"];
+}
+@if (!string.IsNullOrEmpty(type))
+{
+    <div class="alert alert-@type alert-dismissible fade show" role="alert">
+        <strong>@title</strong> @body
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}

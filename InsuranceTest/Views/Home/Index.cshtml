@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Správa Pojištěnců";
+}
+
+<div class="my-3 p-3 bg-light rounded">
+    <h1>@ViewData["Title"]</h1>
+    <p class="py-3">
+        Aplikace pro správu pojištěnců, jejich pojištění a pojistných událostí.
+    </p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="my-3 p-3 bg-light rounded">
+            <h2>Pojištěnci</h2>
+            <p>Přehled a správa pojištěnců.</p>
+            <p><a class="btn btn-default btn-outline-dark" asp-area="" asp-controller="Insureds" asp-action="Index">Pojištěnci &raquo;</a></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="my-3 p-3 bg-light rounded">
+            <h2>Pojištění</h2>
+            <p>Přehled a správa typů pojištění.</p>
+            <p><a class="btn btn-default btn-outline-dark" asp-area="" asp-controller="Insurances" asp-action="Index">Pojištění &raquo;</a></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="my-3 p-3 bg-light rounded">
+            <h2>Pojistné události</h2>
+            <p>Přehled pojistných událostí</p>
+            <p><a class="btn btn-default btn-outline-dark" asp-area="" asp-controller="InsuredEvents" asp-action="Index">Pojistné události &raquo;</a></p>
+        </div>
+    </div>
+</div>
+

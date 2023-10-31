@@ -1,0 +1,80 @@
+﻿@model InsuranceApp.Models.Insured
+
+@{
+    ViewData["Title"] = "Detail pojištěnce";
+}
+
+<div class="d-flex justify-content-start flex-wrap mb-3">
+    <div class="col-md-2 pe-5">
+        <img src="~/images/avatar.png" alt="Obrázek" class="img-fluid img-thumbnail" />
+    </div>
+    <div class="col-md-10 pe-5">
+        <h1>@Model.Name @Model.Surname</h1>
+
+        <div class="d-flex justify-content-start flex-wrap">
+            <div class="col-md-6 pe-5">
+                <p class="mb-1">@Model.Street</p>
+                <p class="mb-1">@Model.City</p>
+                <p class="mb-1">@Model.Zip</p>
+            </div>
+            <div class="col-md-6">
+                <p class="mb-1 me-1">@Model.Email</p>
+                <p class="mb-1">@Model.Phone</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Insurances.Count > 0)
+{
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Smlouva č.</th>
+                    <th>Typ pojištění</th>
+                    <th>Předmět</th>
+                    <th>Částka</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var insurance in Model.Insurances)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Insurances" asp-action="Details" asp-route-id="@insurance.Id">@insurance.Id</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => insurance.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => insurance.Subject)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => insurance.Amount)
+                        </td>
+                        <td>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-controller="Insurances" asp-action="Edit" asp-route-id="@insurance.Id" class="btn btn-sm btn-warning me-1">Editovat</a>
+                                <a asp-controller="Insurances" asp-action="Delete" asp-route-id="@insurance.Id" class="btn btn-sm btn-danger">Odstranit</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<div class="d-flex justify-content-center flex-wrap my-4">
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-controller="Insurances" asp-action="Create" class="btn btn-primary mx-1 mb-1">Přidat pojištění</a>
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning mx-1 mb-1">Editovat pojištěnce</a>
+        <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger mx-1 mb-1">Odstranit pojištěnce</a>
+    }
+    <a asp-action="Index" class="btn btn-primary mx-1 mb-1">Zpět na seznam pojištěnců</a>
+</div>
+

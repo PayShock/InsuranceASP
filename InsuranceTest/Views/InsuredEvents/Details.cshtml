@@ -1,0 +1,57 @@
+﻿@model InsuranceApp.Models.InsuredEvent
+
+@{
+    ViewData["Title"] = "Pojistná událost";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="my-5">
+    <dl class="row">
+        <dt class="col-sm-2">
+            Pojištěnec
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Insurance.Insured.Surname) @Html.DisplayFor(model => model.Insurance.Insured.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Insurance)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Insurance.Type) - @Html.DisplayFor(model => model.Insurance.Subject)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+    </dl>
+</div>
+<div class="d-flex justify-content-center flex-wrap my-4">
+    <!--<a asp-action="Index">Back to List</a>-->
+    <a class="btn btn-primary mx-2" onclick="javascript:history.back();">Zpět</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning mx-2">Upravit</a>
+        <a asp-action="Delete" asp-route-id="@Model?.Id" class="btn btn-danger mx-2">Odstranit</a>
+    }
+</div>

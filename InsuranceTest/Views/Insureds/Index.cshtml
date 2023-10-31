@@ -1,0 +1,129 @@
+﻿@using InsuranceApp.Models
+@model PaginatedList<InsuranceApp.Models.Insured>
+
+@{
+    ViewData["Title"] = "Pojištěnci";
+}
+<h1 class="h1">@ViewData["Title"]</h1>
+
+<!-- New record link -->
+@if (User.IsInRole("Admin"))
+{
+    <div class="container-fluid py-4 text-center">
+        <a asp-action="Create" class="btn btn-primary btn-lg">Nový Pojištěnec</a>
+    </div>
+}
+
+<!-- Searching -->
+<form asp-action="Index" method="get">
+    <div class="form-row">
+        <div class="col-md-3 float-end py-3">
+            <div class="input-group">
+                <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Hledej jméno / příjmení" aria-label="Hledej jméno / příjmení" aria-describedby="search-addon" />
+                <input type="submit" class="input-group-addon btn btn-sm btn-primary" id="search-addon" value="Hledej" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Data list -->
+<table class="table table-responsive table-striped table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["SurnameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Příjmení</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Jméno</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["CitySortParam"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Město</a>
+            </th>
+            <th>
+                Ulice
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    <a asp-action="Details" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Surname)
+                    </a>
+                </td>
+                <td class="align-middle">
+                    @item.Name
+                </td>
+                <td class="align-middle">
+                    @item.City
+                </td>
+                <td class="align-middle">
+                    @item.Street
+                </td>
+                <td class="align-middle">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning my-1">Editovat</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger my-1">Odstranit</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Pagination -->
+@if (Model.TotalPages > 1)
+{
+<div class="container-fluid py-3">
+    <nav aria-label="Stránkování">
+        <ul class="pagination justify-content-center">
+
+            @{
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+            }
+
+            <li class="page-item @prevDisabled">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   title="Předchozí" aria-label="Předchozí"
+                   class="page-link">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                var activePage = Model.PageIndex == @i ? "active" : "";
+
+                <li class="page-item @activePage">
+                    <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@i"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   title="Stránka @i"
+                   class="page-link">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @nextDisabled">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Model.PageIndex + 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   title="Další"
+                   class="page-link">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+}
